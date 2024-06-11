@@ -1,6 +1,6 @@
 import re
 
-def my_reg(content, sort_by, category_name, fetch_length=10):
+def my_reg2(content, sort_by, category_name, fetch_length=10):
     items = get_items(content)
     
     result_str = ""
@@ -23,12 +23,12 @@ def my_reg(content, sort_by, category_name, fetch_length=10):
     return result
 
 def get_items(content):
-    pattern_item = r"(<div class=\"c-searchPageItemBlock\".+?)<div class=\"c-searchPageItemBlock\""
+    pattern_item = r"(<div[^>]+?class=\"c-searchPageItemList\".+?)<div[^>]+?class=\"c-searchPageItemList\""
     items = re.findall(pattern_item, content, re.MULTILINE | re.DOTALL)
     return items
 
 def get_title(content):
-    pattern_title = r"<h3 class=\"c-serviceBlockItemContent_name\"[^>]*>([^<]+)<"
+    pattern_title = r"<p[^>]+?class=\"c-serviceListItemColContentHeader_overview\"[^>]*>\s*([^<]+?)\s*<"
     title = re.findall(pattern_title, content, re.MULTILINE | re.DOTALL)
     return title[0]
 
