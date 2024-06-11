@@ -25,7 +25,8 @@ USER $USERNAME
 
 WORKDIR $WORKDIR
 
+COPY --chown=$UID:$GID ./python/Pipfile ./python/Pipfile.lock ./
+
 RUN pip install -U pip && \
     pip install pipenv==2024.0.0 && \
-    pipenv sync --system && \
-    pip uninstall --yes pipenv
+    pipenv install --system
