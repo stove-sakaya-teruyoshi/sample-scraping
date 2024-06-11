@@ -4,6 +4,7 @@ def my_reg(content):
     items = get_items(content)
     
     result_str = ""
+    result = []
     count = 0
 
     for item in items:
@@ -11,11 +12,14 @@ def my_reg(content):
         price = get_price(item)
         item_status = title + " : " + price
         if count < 10:
+            result += [[title, price]]
             result_str += item_status + "\n"
         count += 1
 
     with open("coconala-scraping-div.txt", "w") as f:
         f.write(result_str)
+
+    return result
 
 def get_items(content):
     pattern_item = r"(<div class=\"c-searchPageItemBlock\".+?)<div class=\"c-searchPageItemBlock\""
