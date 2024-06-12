@@ -16,8 +16,8 @@ def my_fetch(url, sort_by="recommend"):
     if response.status_code == 200:
         print(url + 'を' + sort_by + '順で取得しました。')
         textRes = response.text
-        with open("coconala-scraping.txt", "w") as f:
-            f.write(textRes)
+        # with open("coconala-scraping.txt", "w", encoding='utf-8') as f:
+        #     f.write(textRes)
         return textRes
     else:
         print('失敗しました。')
