@@ -17,7 +17,7 @@ def my_reg2(content, sort_by, category_name, fetch_length=10):
             result_str += ",".join(result[-1]) + "\n"
         count += 1
 
-    # with open("coconala-scraping-div.txt", "w") as f:
+    # with open("coconala-scraping-div.txt", "w", encoding='utf-8') as f:
     #     f.write(result_str)
 
     return result

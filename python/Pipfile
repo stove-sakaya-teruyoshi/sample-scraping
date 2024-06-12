@@ -5,8 +5,13 @@ name = "pypi"
 
 [packages]
 requests = "*"
+gspread = "*"
+oauth2client = "*"
+httplib2 = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.12"
+
+[scripts]
+start = "python src/__main__.py"

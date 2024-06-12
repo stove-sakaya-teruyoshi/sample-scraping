@@ -1,7 +1,9 @@
+import datetime
+import csv
 import my_reg
 import my_reg2
 import my_fetch
-import csv
+import spread_sheet
 
 def main():
     url = 'https://coconala.com/categories/'
@@ -42,10 +44,12 @@ def main():
             content = my_fetch.my_fetch(url + category[0], sort_by[0])
             datas += my_reg2.my_reg2(content, sort_by[1], category[1])
 
-    with open('coconala-scraping.csv', 'w') as csvfile:
+    with open('coconala-scraping' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csvWriter = csv.writer(csvfile)
         for data in datas:
             csvWriter.writerow(data)
+
+    spread_sheet.write_csv(datas)
 
 def get_content():
     with open('coconala-scraping.txt', 'r', encoding='utf-8') as file:
@@ -55,3 +59,4 @@ def get_content():
 
 if __name__ == "__main__":
     main()
+    # spread_sheet.write_csv([['a', 'b', 'c', 'd', 'e'], ['f', 'g', 'h', 'i', 'j']])
