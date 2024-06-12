@@ -3,6 +3,7 @@ import csv
 import my_reg
 import my_reg2
 import my_fetch
+import spread_sheet
 
 def main():
     url = 'https://coconala.com/categories/'
@@ -48,6 +49,8 @@ def main():
         for data in datas:
             csvWriter.writerow(data)
 
+    spread_sheet.write_csv(datas)
+
 def get_content():
     with open('coconala-scraping.txt', 'r', encoding='utf-8') as file:
         return file.read()
@@ -56,3 +59,4 @@ def get_content():
 
 if __name__ == "__main__":
     main()
+    # spread_sheet.write_csv([['a', 'b', 'c', 'd', 'e'], ['f', 'g', 'h', 'i', 'j']])
