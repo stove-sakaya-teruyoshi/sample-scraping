@@ -1,25 +1,33 @@
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import google.auth
+from googleapiclient.discovery import build
 
-def get_sheet():
+def get_sheet_service():
     json = "sample-scraping.json"
+    scopes = ['https://www.googleapis.com/auth/spreadsheets']
+    credentials, _ = google.auth.load_credentials_from_file(json, scopes=scopes)
+    service = build('sheets', 'v4', credentials=credentials)
+
+    return service
+
+def write_csv(values):
+    value_input_option = "USER_ENTERED"
     key = "1XtW0PVmnCY0v-TQh6jkmrqI8qdycQsHTBShbqEwdwvk"
-    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(json, scope)
-    gc = gspread.authorize(credentials)
-    SPREADSHEET_KEY = key
-    worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
-
-    return worksheet
-
-def write_csv(datas):
     print('スプレッドシートに記載中')
-    range_name = "A1:E" + str(len(datas))
-    sheet = get_sheet()
-    rg = sheet.range(range_name)
-    for i in range(len(datas)):
-        for j in range(len(datas[i])):
-            rg[i * len(datas[i]) + j].value = datas[i][j]
-    
-    sheet.update_cells(rg)
-    print('記載処理が完了しました。')
+    range_name = "A1:E" + str(len(values))
+    try :
+        service = get_sheet_service()
+        data = [
+            {"range": range_name, "values": values}
+        ]
+        body = {"valueInputOption": value_input_option, "data": data}
+        result = (
+            service.spreadsheets()
+            .values()
+            .batchUpdate(spreadsheetId=key, body=body)
+            .execute()
+        )
+        print('記載処理が完了しました。')
+        return result
+    except HttpError as error:
+        print(f"An error occurred: {error}")
+        return error
